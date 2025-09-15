@@ -16,12 +16,9 @@ on:
           required: true
           type: string
 
-env:
-  name: ${{ inputs.name || 'bob' }}
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  get-secret:
+  test-manual-workflow-approval:
     runs-on: ubuntu-latest
 
     permissions:
@@ -32,17 +29,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5
-    - name: Google Auth
-      uses: 'google-github-actions/auth@v3'
-      with:
-        service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
-        workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
 
-    - name: Print name
-      run: |
-        echo $name.hcl
-
-    - name: Approval test
+    - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
       timeout-minutes: 60
       with:
@@ -51,6 +39,6 @@ jobs:
         minimum-approvals: 1
         fail-on-denial: true
     
-    - name: Get secret
+    - name: Post approval step
       run: |
         echo The workflow will now continue after approval is given
