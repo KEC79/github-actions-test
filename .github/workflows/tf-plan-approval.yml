@@ -1,9 +1,6 @@
 name: TF plan approval workflow
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
   
 jobs:
