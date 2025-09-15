@@ -50,7 +50,7 @@ jobs:
         approvers: KEC79
         minimum-approvals: 1
         fail-on-denial: true
-        issue-body: "Review and approve the following TF plan: ${{ steps.tf-plan.outputs.stdout }}"
+        issue-body: echo ${{ steps.tf-plan.outputs.stdout }}
     
     - name: Post approval step
       run: |
