@@ -16,19 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
       issues: 'write'
 
     steps:
     - name: Checkout
       uses: actions/checkout@v5
-
-    - name: Google Auth
-      uses: 'google-github-actions/auth@v3'
-      with:
-        service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
-        workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
 
     - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
@@ -42,9 +34,3 @@ jobs:
     - name: Post approval step
       run: |
         echo The workflow will now continue after approval is given
-
-    - name: Get secret
-      run: |
-        echo Getting secret...
-        secret=$(gcloud secrets versions access latest --secret="test-secret")
-        echo $secret
