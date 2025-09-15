@@ -1,0 +1,58 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+        name:
+          description: 'Enter name'
+          default: ''
+          required: true
+          type: string
+
+env:
+  name: ${{ inputs.name || 'bob' }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  get-secret:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      issues: 'write'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+    - name: Google Auth
+      uses: 'google-github-actions/auth@v3'
+      with:
+        service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+
+    - name: Print name
+      run: |
+        echo $name.hcl
+
+    - name: Approval test
+      uses: trstringer/manual-approval@v1
+      timeout-minutes: 60
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: KEC79
+        minimum-approvals: 1
+        fail-on-denial: true
+    
+    - name: Get secret
+      run: |
+        echo Getting secret...
+        secret=$(gcloud secrets versions access latest --secret="test-secret")
+        echo $secret
