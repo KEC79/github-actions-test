@@ -32,10 +32,12 @@ jobs:
           terraform_wrapper: false
 
     - name: Initialize terraform
+      working-directory: 'terraform/'
       run: |
         terraform init
 
     - name: Run terraform plan
+      working-directory: 'terraform/'
       id: tf-plan
       run: |
         terraform plan -out=tfplan -no-color -input=false
