@@ -40,7 +40,7 @@ jobs:
       working-directory: 'terraform/'
       id: tf-plan
       run: |
-        terraform plan -out=tfplan -no-color -input=false
+        terraform plan -out=tfplan -input=false
 
     - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
@@ -50,7 +50,6 @@ jobs:
         approvers: KEC79
         minimum-approvals: 1
         fail-on-denial: true
-        issue-body: echo ${{ steps.tf-plan.outputs.stdout }}
     
     - name: Post approval step
       run: |
