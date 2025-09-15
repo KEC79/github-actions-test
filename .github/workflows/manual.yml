@@ -36,3 +36,9 @@ jobs:
     - name: Post approval step
       run: |
         echo The workflow will now continue after approval is given
+
+    - name: Get secret
+      run: |
+        echo Getting secret...
+        secret=$(gcloud secrets versions access latest --secret="test-secret")
+        echo $secret
