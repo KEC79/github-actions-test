@@ -24,6 +24,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v5
 
+    - name: Google Auth
+      uses: 'google-github-actions/auth@v3'
+      with:
+        service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+
     - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
       timeout-minutes: 60
@@ -36,3 +42,11 @@ jobs:
     - name: Post approval step
       run: |
         echo The workflow will now continue after approval is given
+
+    - name: Initialize terraform
+      run: |
+        terraform init
+
+    - name: Run terraform plan
+      run: |
+        terraform init
