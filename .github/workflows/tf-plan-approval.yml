@@ -1,16 +1,11 @@
-# This is a basic workflow that is manually triggered
-
 name: TF plan approval workflow
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   push:
     branches:
       - main
   workflow_dispatch:
   
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test-manual-workflow-approval:
     runs-on: ubuntu-latest
@@ -30,6 +25,15 @@ jobs:
         service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
         workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
 
+    - name: Initialize terraform
+      run: |
+        terraform init
+
+    - name: Run terraform plan
+      id: tf-plan
+      run: |
+        terraform plan -out=tfplan -no-color -input=false
+
     - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
       timeout-minutes: 60
@@ -38,15 +42,8 @@ jobs:
         approvers: KEC79
         minimum-approvals: 1
         fail-on-denial: true
+        issue-body: ${{ steps.tf-plan.outputs.stdout }}
     
     - name: Post approval step
       run: |
         echo The workflow will now continue after approval is given
-
-    - name: Initialize terraform
-      run: |
-        terraform init
-
-    - name: Run terraform plan
-      run: |
-        terraform init
