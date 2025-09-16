@@ -1,4 +1,4 @@
-name: Test discoverable workflow 2
+name: This is a different wf
 
 on:
   workflow_dispatch:
