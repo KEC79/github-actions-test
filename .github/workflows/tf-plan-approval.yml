@@ -9,11 +9,7 @@ on:
       env_name:
         description: 'Enter env name'
         required: true
-        type: choice
-        options:
-          - env1
-          - env2
-          - env3
+        type: string
 
 env:
   env_name: ${{ inputs.env_name || 'env1' }}
