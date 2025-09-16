@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-       working-directory: infrastructure\$env_name
+       working-directory: infrastructure/$env_name
 
     permissions:
       contents: 'read'
