@@ -14,19 +14,8 @@ on:
 jobs:
   test-manual-workflow-approval:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-       working-directory: infrastructure/$env_name
-
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-      issues: 'write'
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v5
-    
     - name: discoverable workflow run
       run: echo "This is a discoverable workflow run for $env_name"
 
