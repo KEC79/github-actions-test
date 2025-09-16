@@ -33,39 +33,42 @@ jobs:
     - name: echo env name
       run: pwd && echo $env_name
 
-    - name: Google Auth
-      uses: 'google-github-actions/auth@v3'
-      with:
-        service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
-        workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+    - name: print var
+      run: echo $env_name
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-          terraform_version: "^1.13.2"
-          terraform_wrapper: false
+    # - name: Google Auth
+    #   uses: 'google-github-actions/auth@v3'
+    #   with:
+    #     service_account: 'service-account@test-iam-471818.iam.gserviceaccount.com'
+    #     workload_identity_provider: 'projects/286584304114/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
 
-    - name: Initialize terraform
-      working-directory: 'terraform/'
-      run: |
-        terraform init
+    # - name: Setup Terraform
+    #   uses: hashicorp/setup-terraform@v3
+    #   with:
+    #       terraform_version: "^1.13.2"
+    #       terraform_wrapper: false
 
-    - name: Run terraform plan
-      working-directory: 'terraform/'
-      id: tf-plan
-      run: |
-        terraform plan -out=tfplan -input=false
+    # - name: Initialize terraform
+    #   working-directory: 'terraform/'
+    #   run: |
+    #     terraform init
 
-    - name: Test manual workflow approval
-      uses: trstringer/manual-approval@v1
-      timeout-minutes: 60
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: KEC79
-        minimum-approvals: 1
-        fail-on-denial: true
+    # - name: Run terraform plan
+    #   working-directory: 'terraform/'
+    #   id: tf-plan
+    #   run: |
+    #     terraform plan -out=tfplan -input=false
+
+    # - name: Test manual workflow approval
+    #   uses: trstringer/manual-approval@v1
+    #   timeout-minutes: 60
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: KEC79
+    #     minimum-approvals: 1
+    #     fail-on-denial: true
     
-    - name: Post approval step
-      run: |
-        echo The workflow will now continue after approval is given
+    # - name: Post approval step
+    #   run: |
+    #     echo The workflow will now continue after approval is given
 
