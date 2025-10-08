@@ -39,14 +39,14 @@ jobs:
       run: |
         terraform plan -out=TF_PLAN -input=false
 
-    - name: Test manual workflow approval
-      uses: trstringer/manual-approval@v1
-      timeout-minutes: 60
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: KEC79
-        minimum-approvals: 1
-        fail-on-denial: true
+    # - name: Test manual workflow approval
+    #   uses: trstringer/manual-approval@v1
+    #   timeout-minutes: 60
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: KEC79
+    #     minimum-approvals: 1
+    #     fail-on-denial: true
     
     - name: Run terraform apply
       working-directory: 'terraform/'
