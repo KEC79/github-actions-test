@@ -37,7 +37,7 @@ jobs:
       working-directory: 'terraform/'
       id: tf-plan
       run: |
-        terraform plan -out=tfplan -input=false
+        terraform plan -out=TF_PLAN -input=false
 
     - name: Test manual workflow approval
       uses: trstringer/manual-approval@v1
@@ -48,6 +48,9 @@ jobs:
         minimum-approvals: 1
         fail-on-denial: true
     
-    - name: Post approval step
+    - name: Run terraform apply
+      working-directory: 'terraform/'
+      id: tf-apply
       run: |
-        echo The workflow will now continue after approval is given
+        terraform apply -auto-approve -input=false TF_PLAN
+
